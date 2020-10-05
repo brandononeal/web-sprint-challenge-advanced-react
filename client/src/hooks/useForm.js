@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
-export const useForm = (key, initialValues, cb) => {
+export const useForm = (key, initialValues) => {
   const [values, setValues] = useLocalStorage(key, initialValues);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleChanges = (e) => {
     setValues({
@@ -11,14 +13,9 @@ export const useForm = (key, initialValues, cb) => {
   };
 
   const handleSubmit = (e) => {
-    if (e) e.preventDefault();
-    cb();
+    e.preventDefault();
+    setShowSuccessMessage(true);
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setShowSuccessMessage(true);
-  // };
-
-  return [values, handleChanges, handleSubmit];
+  return [values, handleChanges, handleSubmit, showSuccessMessage];
 };
